@@ -1,31 +1,65 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 
 int main() {
 
-    // Find the user home directory from the environment
-    // Set current working directory to user home directory
-    // Save the current path
+    bool quit = false;
 
-    // Load history
-    // Load aliases
+    // Standard Input buffer for gets()
+    char buffer[512];
 
-    // Do while shell has not terminated
-        // Display prompt
-        // Read and parse user input
-        // While the command is a history invocation or alias then replace it with the appropriate command from history or the aliased command respectively
-        // If command is built-in invoke appropriate function
-        // Else execute command as an external process
-    // End while
+    do {
 
-    // Save history
-    // Save aliases
+        // Shell character
+        printf("£ ");
 
-    // Restore original path
+        // Gets a full line from the shell, and if ctrl-d (EOF) is pressed then it exits
+        if(gets(buffer) == 0) {
 
-    // Exit
+            quit = true;
+
+        }
+
+        int BufferLength = sizeof buffer / sizeof * buffer;
+
+        // If buffer overflow?
+        if(BufferLength > 512) {
+
+            printf("Buffer overflow! 512 characters is the limit");
+
+            exit(0);
+
+        }
+
+        // Gets the first token from the buffer
+        char * token = strtok(buffer, " ");
+
+        // Stops when token is NULL
+        while(token) {
+
+            // If token is not NULL
+            if(token) {
+
+                // Compare token to "exit", if 0
+                if((strcmp(token, "exit") == 0)) {
+
+                    quit = true;
+
+                }
+                
+            }
+
+            // Displays each token
+            printf("\"%s\"\n", token);
+
+            // Next token
+            token = strtok(NULL, " ");
+
+        }
+
+    } while(!quit);
    
-    printf("Hello, World!");
-
     return 0;
 
 }
