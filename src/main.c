@@ -1,60 +1,45 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <string.h>
+
+#include "headers/helpers.h"
+#include "headers/modules.h"
+
+#define BUFFER_SIZE 512
+#define TOKENS_ROWS 100
+#define TOKENS_COLUMNS 100
 
 int main() {
 
     bool quit = false;
 
     // Standard Input buffer for gets()
-    char buffer[512];
+    char buffer[BUFFER_SIZE];
+    char tokens[TOKENS_ROWS][TOKENS_COLUMNS];
 
     do {
 
         // Shell character
         printf("£ ");
 
-        // Gets a full line from the shell, and if ctrl-d (EOF) is pressed then it exits
-        if(gets(buffer) == 0) {
+        // quits program if EOF (ctrl-D) detected
+        if(getUserInput(buffer, BUFFER_SIZE)) {
 
-            quit = true;
+            // We always need to print a newline when quitting as some shells try to add a trailing \n
+            printf("\n");
 
-        }
-
-        int BufferLength = sizeof buffer / sizeof * buffer;
-
-        // If buffer overflow?
-        if(BufferLength > 512) {
-
-            printf("Buffer overflow! 512 characters is the limit");
-
-            exit(0);
+            break;
 
         }
 
-        // Gets the first token from the buffer
-        char * token = strtok(buffer, " ");
+        // Stores tokens in tokens and returns the amount of tokens
+        int size = tokenize(buffer, TOKENS_ROWS, TOKENS_COLUMNS, tokens);
 
-        // Stops when token is NULL
-        while(token) {
+        quit = checkTokensForCommands(size, TOKENS_ROWS, TOKENS_COLUMNS, tokens);
 
-            // If token is not NULL
-            if(token) {
+        // Printing each token
+        for(int index = 0; index < size; index++) {
 
-                // Compare token to "exit", if 0
-                if((strcmp(token, "exit") == 0)) {
-
-                    quit = true;
-
-                }
-                
-            }
-
-            // Displays each token
-            printf("\"%s\"\n", token);
-
-            // Next token
-            token = strtok(NULL, " ");
+            printf("\"%s\"\n", tokens[index]);
 
         }
 
