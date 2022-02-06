@@ -44,7 +44,8 @@ bool getUserInput(char * buffer, int size) {
 // --------------------------------------------------
 int tokenize(char * buffer, int rows, int columns, char tokens[rows][columns]) {
 
-    char * token = strtok(buffer, " ");
+    char Delimit[] = "  \t \n ; & > < ";
+    char * token = strtok(buffer, Delimit);
 
     int counter = 0;  
 
@@ -61,7 +62,7 @@ int tokenize(char * buffer, int rows, int columns, char tokens[rows][columns]) {
         }
 
         // Next token
-        token = strtok(NULL, " ");
+         token = strtok(NULL, Delimit);
 
     }
 
