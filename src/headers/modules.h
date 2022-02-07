@@ -8,6 +8,7 @@
 // userInput.c
 bool getUserInput(char * buffer, int size);
 int tokenize(char * buffer, int rows, int columns, char tokens[rows][columns]);
+void execute(int rows, int columns, char tokens[rows][columns]);
 // --------------------------------------------------
 // checkCommands.c
 bool checkTokensForCommands(int size, int rows, int columns, char tokens[rows][columns]);

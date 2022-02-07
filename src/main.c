@@ -15,6 +15,8 @@ int main() {
     // Standard Input buffer for gets()
     char buffer[BUFFER_SIZE];
     char tokens[TOKENS_ROWS][TOKENS_COLUMNS];
+    char  *argv[50];              /* the command line argument      */
+
 
     do {
 

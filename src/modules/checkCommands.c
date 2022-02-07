@@ -11,6 +11,10 @@ bool checkTokensForCommands(int size, int rows, int columns, char tokens[rows][c
         return true;
 
     }
+    else
+    {
+        execute( rows,columns,  tokens[rows][columns]);
+    }
 
     return false; 
 

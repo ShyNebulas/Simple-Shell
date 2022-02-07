@@ -47,10 +47,13 @@ int tokenize(char * buffer, int rows, int columns, char tokens[rows][columns]) {
     char Delimit[] = "  \t \n ; & > < ";
     char * token = strtok(buffer, Delimit);
 
-    int counter = 0;  
+    int counter = 0;
+
 
     // Stops when token is NULL
     while(token) {
+
+
 
         // If token is not NULL
         if(token) {
