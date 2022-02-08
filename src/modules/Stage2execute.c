@@ -5,6 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 #include  <sys/wait.h>
+#include <stdbool.h>
 
 #include "../headers/functionDefinitions.h"
 
@@ -18,7 +19,7 @@ void execute(int rows, char *tokens[rows])
 
     if(pid<0)
     {
-        fprintf(stderr,"Fork child process Failed");
+        fprintf(stderr,"Fork child process Failed\n");
         err=-1;
     }
     else if(pid == 0) //child process

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "../headers/functionDefinitions.h"
 
 // --------------------------------------------------
@@ -32,9 +33,33 @@ bool checkTokensForCommands(int rows, char *tokens[rows]) {
 
         return true;
     }
+    else if (strcmp(tokens[0], "getpath")==0) {
+        getAndPrintCurrentPath();
+        printf("hi567");
+        return false;
+    }
+
+    else if (strcmp(tokens[0], "setpath")==0) {
+        int err = setPath(tokens[1]);
+        if (err < 0) {
+            perror("path not found");
+            return true;
+        }
+        else if (err == 0) {
+            printf("hi123");
+        }
+        // printf("%s\n", getPath());
+        return false;
+    }
     else
     {
         execute(rows, tokens);
     }
     return false;
+}
+
+char* getPath() {
+    char *path;
+    path = getenv("PATH");
+    return path;
 }

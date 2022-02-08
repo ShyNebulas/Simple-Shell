@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "../headers/functionDefinitions.h"
 
@@ -53,6 +54,14 @@ int stage1Loop() {
 
     char buffer[BUFFER_SIZE];
     char *tokens[TOKENS_ROWS];
+    char *path = getPath();
+   // printf("%s\n", path);
+     changeDirToHome();
+
+    // printf("%d\n", ret);
+
+  //  char buffer2[50];
+   // printf("%s", getcwd(buffer2,50));
 
     do {
 // Shell character

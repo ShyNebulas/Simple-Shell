@@ -9,4 +9,4 @@ add_executable(cs210_group_3_shell2
         src/helpers/helperFunctions.c
         src/modules/Stage2execute.c
         src/modules/Stage1userInput.c
-        src/main.c src/headers/functionDefinitions.h)
+        src/main.c src/headers/functionDefinitions.h src/modules/stage3PathHome.c)
