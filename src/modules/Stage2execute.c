@@ -2,14 +2,11 @@
 // Created by syeda shah on 07/02/2022.
 //
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/types.h>
 #include  <sys/wait.h>
 
-#include "../headers/helpers.h"
-#include "../headers/modules.h"
+#include "../headers/functionDefinitions.h"
 
 void execute(int rows, char *tokens[rows])
 {
@@ -41,7 +38,7 @@ void execute(int rows, char *tokens[rows])
         //parent process
         //parent will wait for the child to complete
         wait(NULL);
-      //  printf("child complete\n");
+
     }
 
     if(err==-1){

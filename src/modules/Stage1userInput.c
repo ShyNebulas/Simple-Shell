@@ -2,9 +2,10 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "../headers/helpers.h"
-#include "../headers/modules.h"
+#include "../headers/functionDefinitions.h"
 
+#define BUFFER_SIZE 512
+#define TOKENS_ROWS 100
 // --------------------------------------------------
 // Function which reads input from the input buffer, 
 // buffer = char array to store user input
@@ -20,7 +21,7 @@ bool getUserInput(char * buffer, int size) {
         // Clean up whatever fgets() has left behind
         clearInputBuffer();
     }
-   // buffer[strcspn(buffer, "\r\n")] = 0;
+
     return false;
 }
 // --------------------------------------------------
@@ -43,4 +44,31 @@ int tokenize(char * buffer, int rows, char* tokens[rows]) {
     }
     tokens[counter] = NULL;
     return counter;
+}
+
+int stage1Loop() {
+
+    bool quit = false;
+// Standard Input buffer for gets()
+
+    char buffer[BUFFER_SIZE];
+    char *tokens[TOKENS_ROWS];
+
+    do {
+// Shell character
+        printf("£ ");
+// quits program if EOF (ctrl-D) detected
+        if (getUserInput(buffer, BUFFER_SIZE)) {
+// We always need to print a newline when quitting as some shells try to add a trailing \n
+            printf("\n");
+            break;
+        }
+// Stores tokens in tokens and returns the amount of tokens
+        tokenize(buffer, TOKENS_ROWS, tokens);
+
+        quit = checkTokensForCommands(TOKENS_ROWS, tokens);
+
+    } while (!quit);
+    return 0;
+
 }

@@ -6,11 +6,7 @@ set(CMAKE_C_STANDARD 11)
 include_directories(src/headers)
 
 add_executable(cs210_group_3_shell2
-        src/headers/helpers.h
-        src/headers/modules.h
-        src/helpers/array.c
-        src/helpers/input.c
-        src/modules/checkCommands.c
-        src/modules/execute.c
-        src/modules/userInput.c
-        src/main.c)
+        src/helpers/helperFunctions.c
+        src/modules/Stage2execute.c
+        src/modules/Stage1userInput.c
+        src/main.c src/headers/functionDefinitions.h)
