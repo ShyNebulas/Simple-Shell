@@ -7,11 +7,11 @@
 // --------------------------------------------------
 // userInput.c
 bool getUserInput(char * buffer, int size);
-int tokenize(char * buffer, int rows, int columns, char tokens[rows][columns]);
-void execute(int rows, int columns, char tokens[rows][columns]);
+int tokenize(char * buffer, int rows,  char *tokens[rows]);
+void execute(int rows, char *tokens[rows]);
 // --------------------------------------------------
 // checkCommands.c
-bool checkTokensForCommands(int size, int rows, int columns, char tokens[rows][columns]);
+bool checkTokensForCommands(int size, int rows, char *tokens[rows]);
 // --------------------------------------------------
 
 #endif

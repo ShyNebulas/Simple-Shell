@@ -16,5 +16,3 @@ int sizeOfCharArray(char * array) {
     return size;
 
 }
-
-

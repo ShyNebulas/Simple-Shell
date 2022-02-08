@@ -11,7 +11,7 @@
 #include "../headers/helpers.h"
 #include "../headers/modules.h"
 
-void execute(int rows, int columns, char tokens[rows][columns])
+void execute(int rows, char *tokens[rows])
 {
     int err = 0;
 
@@ -26,8 +26,10 @@ void execute(int rows, int columns, char tokens[rows][columns])
     }
     else if(pid == 0) //child process
     {
-        if (execvp(tokens[0][0], tokens) < 0) {
-            printf("\nCould not execute command..");
+      //  printf("we're here\n");
+
+        if (execvp(tokens[0], tokens) < 0) {
+            perror("\nCould not execute command..");
         }
 
        // err = execvp(tokenss[0], tokenss);
@@ -39,12 +41,10 @@ void execute(int rows, int columns, char tokens[rows][columns])
         //parent process
         //parent will wait for the child to complete
         wait(NULL);
-        printf("child complete");
+      //  printf("child complete\n");
     }
 
     if(err==-1){
-        printf("Error Command not found.");
+        printf("Error Command not found.\n");
     }
-
-
 }
