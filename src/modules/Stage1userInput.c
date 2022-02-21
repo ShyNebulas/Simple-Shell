@@ -55,13 +55,13 @@ int stage1Loop() {
     char buffer[BUFFER_SIZE];
     char *tokens[TOKENS_ROWS];
     char *path = getPath();
-   // printf("%s\n", path);
-     changeDirToHome();
+    // printf("%s\n", path);
+    changeDirToHome();
 
     // printf("%d\n", ret);
 
-  //  char buffer2[50];
-   // printf("%s", getcwd(buffer2,50));
+    //  char buffer2[50];
+    // printf("%s", getcwd(buffer2,50));
 
     do {
         sleep(1);
@@ -81,6 +81,6 @@ int stage1Loop() {
     } while (!quit);
 
     setPath(path);
+    printf("%s", getPath());
     return 0;
-
 }

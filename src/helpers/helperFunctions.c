@@ -30,7 +30,6 @@ void clearInputBuffer() {
 
 bool checkTokensForCommands(int rows, char *tokens[rows]) {
     if(strcmp(tokens[0], "exit") == 0) {
-
         return true;
     }
     else if (strcmp(tokens[0], "getpath")==0) {
