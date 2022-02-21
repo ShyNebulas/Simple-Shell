@@ -64,6 +64,7 @@ int stage1Loop() {
    // printf("%s", getcwd(buffer2,50));
 
     do {
+        sleep(1);
 // Shell character
         printf("£ ");
 // quits program if EOF (ctrl-D) detected
