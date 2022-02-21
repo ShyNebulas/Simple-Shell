@@ -18,9 +18,8 @@ int tokenize(char * buffer, int rows,  char *tokens[rows]);
 int stage1Loop();
 void execute(int rows, char *tokens[rows]);
 // --------------------------------------------------
-char * getPath();
+char *getPath();
 int changeDirToHome ();
-int getAndPrintCurrentPath ();
 int setPath(char *newPath);
 
 #endif //CS210_GROUP_3_SHELL2_FUNCTIONDEFINITIONS_H

@@ -34,21 +34,22 @@ bool checkTokensForCommands(int rows, char *tokens[rows]) {
         return true;
     }
     else if (strcmp(tokens[0], "getpath")==0) {
-        getAndPrintCurrentPath();
-        printf("hi567");
+        if(strcmp(tokens[1], NULL) ==0) {
+            printf("%s %s", getPath(), "\n");
+        }
+        else { perror ("Getpath does not take parameters");  }
         return false;
     }
 
     else if (strcmp(tokens[0], "setpath")==0) {
         int err = setPath(tokens[1]);
-        if (err < 0) {
-            perror("path not found");
-            return true;
+        if (tokens[1]==NULL) {
+            perror("No parameters provided");
+            return false;
         }
         else if (err == 0) {
-            printf("hi123");
+           return false;
         }
-        // printf("%s\n", getPath());
         return false;
     }
     else
@@ -63,3 +64,4 @@ char* getPath() {
     path = getenv("PATH");
     return path;
 }
+

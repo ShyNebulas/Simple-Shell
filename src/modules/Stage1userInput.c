@@ -78,6 +78,8 @@ int stage1Loop() {
         quit = checkTokensForCommands(TOKENS_ROWS, tokens);
 
     } while (!quit);
+
+    setPath(path);
     return 0;
 
 }

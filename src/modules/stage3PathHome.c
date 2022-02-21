@@ -14,6 +14,7 @@ int changeDirToHome () {
     int val = chdir(home);
     if (val <0 ) {
         perror("Couldn't change directory to home\n");
+        return 1;
     }
     else {
         return 0;
@@ -21,13 +22,7 @@ int changeDirToHome () {
 }
 
 
-int getAndPrintCurrentPath () {
-    printf("hi");
-    printf("%s %s", getPath(), "\n");
-    return 0;
-}
-
 int setPath(char *newPath) {
-    int code = setenv("PATH", newPath, 0);
+    int code = setenv("PATH", newPath, 1);
     return code;
 }
