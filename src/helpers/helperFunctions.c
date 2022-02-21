@@ -37,7 +37,7 @@ bool checkTokensForCommands(int rows, char *tokens[rows]) {
             printf("%s %s", getPath(), "\n");
         }
         else {
-            perror ("Getpath does not take parameters");
+            giveErr("Getpath does not take parameters");
         }
         return false;
     }
@@ -55,6 +55,17 @@ bool checkTokensForCommands(int rows, char *tokens[rows]) {
         }
         return false;
     }
+    else if (strcmp(tokens[0],"cd")==0) {
+        if (tokens[1]==NULL) {
+            perror("No parameters provided");
+            return false;
+        }
+        else {
+            int err = changeDir(tokens[1]);
+            return false;
+        }
+
+    }
     else
     {
         execute(rows, tokens);
@@ -67,4 +78,10 @@ char* getPath() {
     path = getenv("PATH");
     return path;
 }
+
+void giveErr(char *errorMessage) {
+    perror(errorMessage);
+    clearInputBuffer();
+}
+
 

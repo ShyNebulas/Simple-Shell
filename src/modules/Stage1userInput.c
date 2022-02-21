@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include "../headers/functionDefinitions.h"
 
@@ -13,6 +14,7 @@
 // size = size of buffer
 // --------------------------------------------------
 bool getUserInput(char * buffer, int size) {
+
     if(fgets(buffer, size, stdin) == 0) {
         return true;
     }
@@ -56,7 +58,7 @@ int stage1Loop() {
     char *tokens[TOKENS_ROWS];
     char *path = getPath();
     // printf("%s\n", path);
-    changeDirToHome();
+    changeDir(getenv("HOME"));
 
     // printf("%d\n", ret);
 

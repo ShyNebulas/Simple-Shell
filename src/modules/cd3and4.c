@@ -9,11 +9,10 @@
 
 #include "../headers/functionDefinitions.h"
 
-int changeDirToHome () {
-    char *home = getenv("HOME");
-    int val = chdir(home);
+int changeDir (char *newDir) {
+    int val = chdir(newDir);
     if (val <0 ) {
-        perror("Couldn't change directory to home\n");
+        perror("Couldn't change directory,does not exist\n");
         return 1;
     }
     else {
@@ -26,3 +25,4 @@ int setPath(char *newPath) {
     int code = setenv("PATH", newPath, 1);
     return code;
 }
+

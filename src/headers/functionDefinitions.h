@@ -19,7 +19,8 @@ int stage1Loop();
 void execute(int rows, char *tokens[rows]);
 // --------------------------------------------------
 char *getPath();
-int changeDirToHome ();
+int changeDir(char *newDir);
 int setPath(char *newPath);
+void giveErr(char *errorMessage);
 
 #endif //CS210_GROUP_3_SHELL2_FUNCTIONDEFINITIONS_H
