@@ -81,6 +81,6 @@ int stage1Loop() {
     } while (!quit);
 
     setPath(path);
-    printf("%s", getPath());
+    printf("%s\n", getPath());
     return 0;
 }
