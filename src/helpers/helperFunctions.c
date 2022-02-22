@@ -8,7 +8,7 @@
 // Function which returns the size of a char array, 
 // e.g. ['a', 'b', 'c'] returns 3
 // --------------------------------------------------
-int sizeOfCharArray(char * array) {
+int sizeOfCharArray(char *array) {
 
     int size = 0; 
 
@@ -29,7 +29,10 @@ void clearInputBuffer() {
 }
 
 bool checkTokensForCommands(int rows, char *tokens[rows]) {
-    if(strcmp(tokens[0], "exit") == 0) {
+    if (tokens[0]== NULL) {
+        return false;
+    }
+    else if(strcmp(tokens[0], "exit") == 0) {
         return true;
     }
     else if (strcmp(tokens[0], "getpath")==0) {
@@ -37,7 +40,7 @@ bool checkTokensForCommands(int rows, char *tokens[rows]) {
             printf("%s %s", getPath(), "\n");
         }
         else {
-            giveErr("Getpath does not take parameters");
+            perror("Getpath does not take parameters");
         }
         return false;
     }
@@ -57,7 +60,7 @@ bool checkTokensForCommands(int rows, char *tokens[rows]) {
     }
     else if (strcmp(tokens[0],"cd")==0) {
         if (tokens[1]==NULL) {
-            perror("No parameters provided");
+            changeDir(getenv("HOME"));
             return false;
         }
         else {
@@ -78,10 +81,4 @@ char* getPath() {
     path = getenv("PATH");
     return path;
 }
-
-void giveErr(char *errorMessage) {
-    perror(errorMessage);
-    clearInputBuffer();
-}
-
 

@@ -36,7 +36,7 @@ bool getUserInput(char * buffer, int size) {
 // tokens = string array to stores tokens
 // --------------------------------------------------
 int tokenize(char * buffer, int rows, char* tokens[rows]) {
-    char Delimit[] = "  \t \n ; & > < \r";
+    char Delimit[] = "  \t \n ; & > < \r |";
     tokens[0] = strtok(buffer, Delimit);
     int counter = 0;
     // Stops when token is NULL
@@ -57,16 +57,9 @@ int stage1Loop() {
     char buffer[BUFFER_SIZE];
     char *tokens[TOKENS_ROWS];
     char *path = getPath();
-    // printf("%s\n", path);
     changeDir(getenv("HOME"));
 
-    // printf("%d\n", ret);
-
-    //  char buffer2[50];
-    // printf("%s", getcwd(buffer2,50));
-
     do {
-        sleep(1);
 // Shell character
         printf("£ ");
 // quits program if EOF (ctrl-D) detected

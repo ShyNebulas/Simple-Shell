@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include  <sys/wait.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <signal.h>
 
 #include "../headers/functionDefinitions.h"
 
@@ -16,33 +18,34 @@ void execute(int rows, char *tokens[rows])
     pid_t pid;
 
     pid=fork();
+        if (pid == 0) //child process
+        {
+            if (execvp(tokens[0], tokens) < 0) {
+                perror("\nCould not execute command..");
+            }
+            exit(0);
+            //gives the user option to specify the filename and
+            // the program is searched in directories that are listed the current PATH environment variable.
+        } else if (pid < 0) {
+            perror("Fork child process Failed\n");
+            err = -1;
+        } else {
+            //parent process
+            //parent will wait for the child to complete
+            int returnStatus;
+            waitpid(pid, &returnStatus, 0);  // Parent process waits here for child to terminate.
 
-    if(pid<0)
-    {
-        fprintf(stderr,"Fork child process Failed\n");
-        err=-1;
-    }
-    else if(pid == 0) //child process
-    {
-      //  printf("we're here\n");
+            if (returnStatus == 0)  // Verify child process terminated without error.
+            {
+                printf("\n");
+            }
 
-        if (execvp(tokens[0], tokens) < 0) {
-            perror("\nCould not execute command..");
+            if (returnStatus == 1) {
+                printf("\n");
+            }
         }
 
-       // err = execvp(tokenss[0], tokenss);
-        //gives the user option to specify the filename and
-        // the program is searched in directories that are listed the current PATH environment variable.
-    }
-    else
-    {
-        //parent process
-        //parent will wait for the child to complete
-        wait(NULL);
-
-    }
-
-    if(err==-1){
-        printf("Error Command not found.\n");
-    }
+        if (err == -1) {
+            printf("Error Command not found.\n");
+        }
 }
