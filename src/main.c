@@ -20,7 +20,7 @@ int main() {
 
         printf("£ ");
 
-        if (getUserInput(buffer, BUFFER_SIZE)) {
+        if(getUserInput(buffer, BUFFER_SIZE)) {
 
             printf("\n");
 
