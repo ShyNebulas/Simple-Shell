@@ -1,13 +1,44 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "headers/functionDefinitions.h"
+#include "../dep/headers/functionDefinitions.h"
+
+#define BUFFER_SIZE 512
+#define TOKENS_ROWS 100
 
 int main() {
-    stage1Loop();
+
+    bool quit = false;
+
+    char buffer[BUFFER_SIZE];
+    char *tokens[TOKENS_ROWS];
+    char *path = getPath();
+
+    changeDir(getenv("HOME"));
+
+    do {
+
+        printf("£ ");
+
+        if (getUserInput(buffer, BUFFER_SIZE)) {
+
+            printf("\n");
+
+            break;
+
+        }
+
+        tokenize(buffer, TOKENS_ROWS, tokens);
+
+        quit = checkTokensForCommands(TOKENS_ROWS, tokens);
+
+    } while (!quit);
+
+    setPath(path);
+    
+    printf("%s\n", getPath());
 
     return 0;
+
 }
 
-// we need ask about exit, does not work right after an error message
-// we need to ask about enter, gives segfault after adding stage 3 and 4

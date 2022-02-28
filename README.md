@@ -1,20 +1,10 @@
 # CS210-Group-3-Shell
 
-## Issues
+# Usage
+If Make is installed on your machine then you will be able to navigate to the ``build`` folder and run ``make`` to compile the program. Otherwise you can compile the program using GCC:
 
-## Stages
-- [x] Stage 1
-    - [x] Is lack of input handled correctly (just hitting <enter> should print again the prompt)?
-    - [x] Does the shell exit when you type ‘exit’?
-    - [x] Does the shell exit when you type <ctrl>D?
-    - [x] Are any rubbish printed?
-    - [x] Is there a segmentation fault?
-    - [ ] Try ‘ls<tab>-lF;.&..>.<..|/<tab>fksdk’
-- [ ] Stage 2
-- [ ] Stage 3
-- [ ] Stage 4
-- [ ] Stage 5
-- [ ] Stage 6
-- [ ] Stage 7
-- [ ] Stage 8
-- [ ] Stage 9
+```gcc -o ../dep/headers/functionDefinitions.c ../src/helpers/helperFunctions.c ../src/modules/cd.c ../src/modules/execute.c ../src/modules/userInput.c ../src/main.c -o main```
+
+
+
+
