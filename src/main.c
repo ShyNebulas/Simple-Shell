@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <stdbool.h>
-
+#include <stdio.h>
+#include <stdlib.h>
 #include "../dep/headers/functionDefinitions.h"
 
 #define BUFFER_SIZE 512
-#define TOKENS_ROWS 100
+
+
 
 int main() {
 
     bool quit = false;
 
     char buffer[BUFFER_SIZE];
-    char *tokens[TOKENS_ROWS];
     char *path = getPath();
 
     changeDir(getenv("HOME"));
@@ -28,17 +29,19 @@ int main() {
 
         }
 
-        tokenize(buffer, TOKENS_ROWS, tokens);
+        tokenize(buffer);
+        if (!(checkForHistoryInvocation()==1)) {
+            addCommand(buffer);
+        }
 
-        quit = checkTokensForCommands(TOKENS_ROWS, tokens);
+        quit = checkTokensForCommands();
 
     } while (!quit);
 
     setPath(path);
-    
+
     printf("%s\n", getPath());
 
     return 0;
 
 }
-
