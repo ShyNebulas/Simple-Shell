@@ -20,8 +20,6 @@ int sizeOfCharArray(char *array) {
 }
 
 
-
-
 // --------------------------------------------------
 // Function which clears the input buffer,
 // i.e. anything that fgets() leaves behind

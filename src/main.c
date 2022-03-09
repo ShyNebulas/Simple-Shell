@@ -11,7 +11,6 @@
 int main() {
 
     bool quit = false;
-
     char buffer[BUFFER_SIZE];
     char *path = getPath();
 
@@ -28,8 +27,8 @@ int main() {
             break;
 
         }
-
         tokenize(buffer);
+
         if (!(checkForHistoryInvocation()==1)) {
             addCommand(buffer);
         }

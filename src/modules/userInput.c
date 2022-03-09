@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include<ctype.h>
 
 #include "../../dep/headers/functionDefinitions.h"
 #define TOKENS_ROWS 100
@@ -151,30 +152,47 @@ bool checkTokensForCommands() {
 
     else if (strcspn(tokens[0],"!") == 0){
 
-        char subString [2];
-        strncpy(subString, tokens[0]+1, sizeof(subString));
-        int historyNum = sscanf(subString,"!-%d",&historyNum);
+        char subString[sizeOfCharArray(tokens[0])];
+
+        memset(subString, '\0', sizeof(subString));
+        strncpy(subString, tokens[0], sizeof(subString));
+
+        if(isalpha(subString[1])) {
+
+            perror("No letters allowed\n");
+
+            return false;
+
+        }
+
+        int historyNum;
+
+        sscanf(subString + 1,"%d",&historyNum);
+
 
         char *toExecuteAgain;
 
-        if (strcspn(subString,"!") == 0) {
+        if (subString[0] == '!' && subString[1] == '!') {
 
-             toExecuteAgain= getMostRecentCommand();
-             if(toExecuteAgain == NULL) {
-                 perror("No commands have been stored in History yet.");
-                 return false;
-             }
-             else {
-                 tokenize(toExecuteAgain);
-                 checkTokensForCommands();
-                 return false;
-             }
+            toExecuteAgain = getMostRecentCommand();
+
+            if(toExecuteAgain == NULL) {
+                perror("No commands have been stored in History yet.\n");
+                return false;
+            }
+
+            else {
+                tokenize(toExecuteAgain);
+                checkTokensForCommands();
+                return false;
+            }
         }
 
         else if (historyNum >=1 && historyNum <=20 ) {
             toExecuteAgain = getCommandByIndex(historyNum);
             if (toExecuteAgain == NULL) {
-                perror("This number has no command in history");
+                perror("This number has no command in history\n");
+                return false;
             }
             else {
                 tokenize(toExecuteAgain);
@@ -183,7 +201,7 @@ bool checkTokensForCommands() {
             }
         }
         else {
-            perror("That is not a valid number, history stores the last 20 commands only.");
+            perror("That is not a valid number, history stores the last 20 commands only.\n");
             return false;
         }
 
@@ -200,7 +218,7 @@ bool checkTokensForCommands() {
 }
 
 int checkForHistoryInvocation() {
-    if (strcspn(tokens[0],"!")) {
+    if (tokens[0][0] == '!') {
         return 1;
 
     }

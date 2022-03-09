@@ -9,6 +9,7 @@
 #define HISTORY_SIZE 20
 char *history[HISTORY_SIZE];
 
+
 int sizeOfStringArray() {
 
     int size = 0;
@@ -97,8 +98,3 @@ void displayHistory() {
     }
 
 }
-
-
-
-
-
