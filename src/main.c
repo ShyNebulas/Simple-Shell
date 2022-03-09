@@ -14,6 +14,8 @@ int main() {
     char buffer[BUFFER_SIZE];
     char *path = getPath();
 
+    loadHistory();
+
     changeDir(getenv("HOME"));
 
     do {
@@ -37,9 +39,10 @@ int main() {
 
     } while (!quit);
 
-    setPath(path);
 
+    setPath(path);
     printf("%s\n", getPath());
+    saveHistory();
 
     return 0;
 

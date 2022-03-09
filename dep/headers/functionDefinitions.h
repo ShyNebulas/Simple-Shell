@@ -32,4 +32,7 @@ void displayHistory();
 char * getMostRecentCommand();
 char *getCommandByIndex (int n);
 int checkForHistoryInvocation();
+void loadHistory();
+void saveHistory();
+
 #endif //CS210_GROUP_3_SHELL2_FUNCTIONDEFINITIONS_H
