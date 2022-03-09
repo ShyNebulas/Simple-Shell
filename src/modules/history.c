@@ -98,39 +98,39 @@ void displayHistory() {
     }
 
 }
+//
+//void saveHistory(){
+//    char * filename = "hist_list";
+//    FILE* file;
+//    file = fopen(filename, "w+");
+//    int counter = 0;
+//    while (counter < 20 && history[counter] != NULL) {
+//        fprintf(file,"%d %s\n", counter, history[counter]);
+//        counter++;
+//    }
+//    fclose(file);
+//}
 
-void saveHistory(){
-    char * filename = "hist_list";
-    FILE* file;
-    file = fopen(filename, "w+");
-    int counter = 0;
-    while (counter < 20 && history[counter] != NULL) {
-        fprintf(file,"%d %s\n", counter, history[counter]);
-        counter++;
-    }
-    fclose(file);
-}
 
-
-void loadHistory(){
-    char * filename = "hist_list";
-    int MAX_CHARS = 512;
-    char buffer[MAX_CHARS];
-
-    FILE* file;
-    file = fopen(filename, "r");
-    int i = 0;
-    while(fgets(buffer, MAX_CHARS, file) != NULL) {
-        char * command;
-        command = strchr(buffer, ' ') + 1;
-        if (command == NULL)
-            continue;
-
-        addCommand(command);
-        i++;
-        if (i > HISTORY_SIZE-1)
-            break;
-    }
-    fclose(file);
-}
+//void loadHistory(){
+//    char * filename = "hist_list";
+//    int MAX_CHARS = 512;
+//    char buffer[MAX_CHARS];
+//
+//    FILE* file;
+//    file = fopen(filename, "r");
+//    int i = 0;
+//    while(fgets(buffer, MAX_CHARS, file) != NULL) {
+//        char * command;
+//        command = strchr(buffer, ' ') + 1;
+//        if (command == NULL)
+//            continue;
+//
+//        addCommand(command);
+//        i++;
+//        if (i > HISTORY_SIZE-1)
+//            break;
+//    }
+//    fclose(file);
+//}
 

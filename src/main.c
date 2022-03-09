@@ -14,7 +14,7 @@ int main() {
     char buffer[BUFFER_SIZE];
     char *path = getPath();
 
-    loadHistory();
+   //loadHistory();
 
     changeDir(getenv("HOME"));
 
@@ -32,7 +32,7 @@ int main() {
         tokenize(buffer);
 
         if (!(checkForHistoryInvocation()==1)) {
-            addCommand(buffer);
+           addCommand(buffer);
         }
 
         quit = checkTokensForCommands();
@@ -42,7 +42,7 @@ int main() {
 
     setPath(path);
     printf("%s\n", getPath());
-    saveHistory();
+   // saveHistory();
 
     return 0;
 
