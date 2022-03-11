@@ -218,7 +218,12 @@ bool checkTokensForCommands() {
 }
 
 int checkForHistoryInvocation() {
-    if (tokens[0][0] == '!') {
+    if(tokens[0] == NULL) {
+
+        return false;
+
+    }
+    else if (tokens[0][0] == '!') {
         return 1;
 
     }

@@ -29,7 +29,7 @@ bool isEmpty();
 void deleteEarliestCommand();
 void addCommand(char *command);
 void displayHistory();
-char * getMostRecentCommand();
+char *getMostRecentCommand();
 char *getCommandByIndex (int n);
 int checkForHistoryInvocation();
 void loadHistory();

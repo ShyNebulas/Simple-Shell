@@ -13,10 +13,9 @@ int main() {
     bool quit = false;
     char buffer[BUFFER_SIZE];
     char *path = getPath();
+    changeDir(getenv("HOME"));
 
     loadHistory();
-
-    changeDir(getenv("HOME"));
 
     do {
 

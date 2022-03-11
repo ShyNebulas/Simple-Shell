@@ -9,7 +9,6 @@
 #define HISTORY_SIZE 20
 char *history[HISTORY_SIZE];
 
-
 int sizeOfStringArray() {
 
     int size = 0;
@@ -34,7 +33,7 @@ bool isFull() {
 
 bool isEmpty() {
 
-    if(sizeOfStringArray(HISTORY_SIZE) == 0) {
+    if(sizeOfStringArray() == 0) {
 
         return true;
 
@@ -45,6 +44,7 @@ bool isEmpty() {
 }
 
 void deleteEarliestCommand() {
+    history[0] = NULL;
     free(history[0]);
 
     for(int i = 1; i < sizeOfStringArray(); i++) {
@@ -52,9 +52,7 @@ void deleteEarliestCommand() {
         history[i - 1] = history[i];
 
     }
-
-    history[sizeOfStringArray() - 1] = NULL;
-
+    history[sizeOfStringArray()-1] = NULL;
 }
 
 void addCommand(char *command) {
@@ -62,15 +60,15 @@ void addCommand(char *command) {
     if(isFull()) {
 
         deleteEarliestCommand();
-        char *comm = malloc(sizeof(command));
+        char *comm = malloc(sizeof(char) * (strlen(command)));
         strcpy(comm,command);
         history[19] = comm;
     }
 
     else {
-        char *comm =  malloc(sizeof (command));
-        strcpy(comm,command);
-        history[sizeOfStringArray()] = comm;
+            char *comm = malloc(sizeof(char) * (strlen(command)));
+            strcpy(comm, command);
+            history[sizeOfStringArray()] = comm;
     }
 
 }
@@ -100,11 +98,11 @@ void displayHistory() {
 }
 
 void saveHistory(){
-    char * filename = "hist_list";
+    char * filename = ".hist_list";
     FILE* file;
     file = fopen(filename, "w+");
     int counter = 0;
-    while (counter < 20 && history[counter] != NULL) {
+    while (counter < HISTORY_SIZE && history[counter] != NULL) {
         fprintf(file,"%d %s\n", counter, history[counter]);
         counter++;
     }
@@ -112,8 +110,9 @@ void saveHistory(){
 }
 
 
+
 void loadHistory(){
-    char * filename = "hist_list";
+    char * filename = ".hist_list";
     int MAX_CHARS = 512;
     char buffer[MAX_CHARS];
 
