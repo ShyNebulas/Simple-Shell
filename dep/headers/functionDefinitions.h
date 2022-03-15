@@ -24,8 +24,7 @@ int setPath(char *newPath);
 
 //---------------------------------------------------
 int sizeOfStringArray();
-bool isFull();
-bool isEmpty();
+int isFull();
 void deleteEarliestCommand();
 void addCommand(char *command);
 void displayHistory();

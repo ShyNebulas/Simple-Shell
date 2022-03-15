@@ -167,8 +167,7 @@ bool checkTokensForCommands() {
 
         int historyNum;
 
-        sscanf(subString + 1,"%d",&historyNum);
-
+        sscanf(subString + 1,"%d\n",&historyNum);
 
         char *toExecuteAgain;
 
@@ -217,17 +216,6 @@ bool checkTokensForCommands() {
 
 }
 
-int checkForHistoryInvocation() {
-    if(tokens[0] == NULL) {
-
-        return false;
-
-    }
-    else if (tokens[0][0] == '!') {
-        return 1;
-
-    }
-    else {
-        return 0;
-    }
+int checkForHistoryInvocation(char* buffer) {
+    return buffer[0] == '!';
 }

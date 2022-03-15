@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../dep/headers/functionDefinitions.h"
 
 #define BUFFER_SIZE 512
@@ -23,20 +24,28 @@ int main() {
 
         if(getUserInput(buffer, BUFFER_SIZE)) {
 
-            printf("\n");
-
             break;
 
         }
-        tokenize(buffer);
 
-        if (!(checkForHistoryInvocation()==1)) {
+        // Check for empty string
+        if(buffer[0] == '\n') {
+
+            continue;
+
+        }
+
+        if (!checkForHistoryInvocation(buffer)) {
             addCommand(buffer);
         }
+
+        tokenize(buffer);
 
         quit = checkTokensForCommands();
 
     } while (!quit);
+
+    displayHistory();
 
 
     setPath(path);
