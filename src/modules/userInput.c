@@ -67,12 +67,18 @@ int tokenize(char * buffer) {
 // rows = array's rows
 // tokens = array of strings
 // --------------------------------------------------
-
 bool checkTokensForCommands() {
 
     // If empty string exists
     if(tokens[0] == NULL) {
 
+        return false;
+
+    }
+
+    else if(strcmp(tokens[0], "history") == 0) {
+
+        displayHistory();
         return false;
 
     }
@@ -152,6 +158,14 @@ bool checkTokensForCommands() {
 
     else if (strcspn(tokens[0],"!") == 0){
 
+        if(strlen(tokens[0]) == 1) {
+
+            printf("Requires a number\n");
+
+            return false;
+
+        }
+
         char subString[sizeOfCharArray(tokens[0])];
 
         memset(subString, '\0', sizeof(subString));
@@ -171,7 +185,7 @@ bool checkTokensForCommands() {
 
         char *toExecuteAgain;
 
-        if (subString[0] == '!' && subString[1] == '!') {
+        if(subString[0] == '!' && subString[1] == '!') {
 
             toExecuteAgain = getMostRecentCommand();
 
@@ -182,21 +196,20 @@ bool checkTokensForCommands() {
 
             else {
                 tokenize(toExecuteAgain);
-                checkTokensForCommands();
-                return false;
+                return checkTokensForCommands();
             }
         }
 
         else if (historyNum >=1 && historyNum <=20 ) {
             toExecuteAgain = getCommandByIndex(historyNum);
+
             if (toExecuteAgain == NULL) {
                 perror("This number has no command in history\n");
                 return false;
             }
             else {
                 tokenize(toExecuteAgain);
-                checkTokensForCommands();
-                return false;
+                return checkTokensForCommands();
             }
         }
         else {

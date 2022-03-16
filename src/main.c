@@ -45,9 +45,6 @@ int main() {
 
     } while (!quit);
 
-    displayHistory();
-
-
     setPath(path);
     printf("%s\n", getPath());
     saveHistory();

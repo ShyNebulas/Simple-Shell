@@ -34,22 +34,30 @@ void addCommand(char *command) {
         strcpy(comm, command);
         history[lastIndex] = comm;
         lastIndex++;
-        printf("[Index] %d\n", lastIndex);
     }
 }
 
 char * getMostRecentCommand() {
-    return history[lastIndex];
+    return history[lastIndex - 1];
 }
 
 char *getCommandByIndex (int n) {
-    return history[n-1];
+
+    if(history[n - 1] == NULL) {
+
+        return NULL;
+
+    }
+
+    char * temp = malloc(sizeof(char) * strlen(history[n - 1])); 
+    strcpy(temp, history[n - 1]);
+    return temp;
 }
 
 void displayHistory() {
     for(int i = 0; i < HISTORY_SIZE; i++) {
         if(history[i]) {
-            printf("%d: %s", i + 1, history[i]);
+            printf("[History] %d: %s", i + 1, history[i]);
         }
     }
 }
@@ -64,8 +72,6 @@ void saveHistory() {
     for(int i = 0; i < HISTORY_SIZE; i++) {
 
         if(history[index]) {
-
-            printf("[History] %d %s", index, history[index]);
 
             fprintf(file, "%d %s", index, history[index]);
 
@@ -94,8 +100,6 @@ void loadHistory() {
     while(fgets(buffer, 255, file)) {
 
         char * command = strchr(buffer, ' ') + 1;
-
-        printf("[loadHistory] %s", command);
 
         addCommand(command);
         
