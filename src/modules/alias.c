@@ -104,7 +104,6 @@ char *getAliasCommand(char *name) {
         return NULL;
     }
     else {
-        printf("%s",AliasArray[ind].command);
         return AliasArray[ind].command;
     }
 }

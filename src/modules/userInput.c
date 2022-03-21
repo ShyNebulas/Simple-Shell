@@ -290,11 +290,12 @@ int checkAndReplaceAliases() {
     if(checkHowManyAliases()!=0) {
         int i=0;
         while (tokens[i] != NULL) {
-            char *temp = getAliasCommand(tokens[i]);
-            printf("%s", temp);
+            char *temp = malloc(500);
+            temp = getAliasCommand(tokens[i]);
+            //printf("%s", temp);
             if (temp != NULL) {
                 tokens[i] = temp;
-                printf("%s",tokens[i]);
+                //printf("%s",tokens[i]);
             }
             i++;
         }
