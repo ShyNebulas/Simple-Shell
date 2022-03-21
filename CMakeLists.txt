@@ -13,4 +13,4 @@ add_executable(cs210_group_3_shell
         src/modules/execute.c
         src/modules/history.c
         src/modules/userInput.c
-        src/main.c)
+        src/main.c src/modules/alias.c)

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include "../dep/headers/functionDefinitions.h"
 
@@ -28,21 +27,21 @@ int main() {
             break;
 
         }
-        tokenize(buffer);
 
-        if (!(checkForHistoryInvocation()==1)) {
+        if (!(checkForHistoryInvocation(buffer)==1)) {
             addCommand(buffer);
         }
+
+        tokenize(buffer);
+        checkAndReplaceAliases();
 
         quit = checkTokensForCommands();
 
     } while (!quit);
-
-
+    
     setPath(path);
+    changeDir(getenv("HOME"));
     printf("%s\n", getPath());
     saveHistory();
-
     return 0;
-
 }

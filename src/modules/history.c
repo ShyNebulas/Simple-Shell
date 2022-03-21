@@ -5,131 +5,105 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../dep/headers/functionDefinitions.h"
-
 #define HISTORY_SIZE 20
 char *history[HISTORY_SIZE];
+int lastIndex = 0;
 
-int sizeOfStringArray() {
-
-    int size = 0;
-
-    for(; history[size] != NULL; size++);
-
-    return size;
-
-}
-
-bool isFull() {
-
-    if(sizeOfStringArray() == HISTORY_SIZE) {
-
-        return true;
-
-    }
-
-    return false;
-
-}
-
-bool isEmpty() {
-
-    if(sizeOfStringArray() == 0) {
-
-        return true;
-
-    }
-
-    return false;
-
+int isFull() {
+    return lastIndex == HISTORY_SIZE;
 }
 
 void deleteEarliestCommand() {
-    history[0] = NULL;
     free(history[0]);
-
-    for(int i = 1; i < sizeOfStringArray(); i++) {
-
+    for(int i = 1; i < lastIndex + 1; i++) {
         history[i - 1] = history[i];
-
     }
-    history[sizeOfStringArray()-1] = NULL;
+    history[lastIndex] = NULL;
 }
 
 void addCommand(char *command) {
-
     if(isFull()) {
-
         deleteEarliestCommand();
         char *comm = malloc(sizeof(char) * (strlen(command)));
         strcpy(comm,command);
-        history[19] = comm;
+        history[HISTORY_SIZE - 1] = comm;
     }
-
     else {
-            char *comm = malloc(sizeof(char) * (strlen(command)));
-            strcpy(comm, command);
-            history[sizeOfStringArray()] = comm;
+        char *comm = malloc(sizeof(char) * (strlen(command)));
+        strcpy(comm, command);
+        history[lastIndex] = comm;
+        lastIndex++;
     }
-
 }
 
 char * getMostRecentCommand() {
-
-    return history[sizeOfStringArray() - 1];
-
+    return history[lastIndex - 1];
 }
 
 char *getCommandByIndex (int n) {
-    return history[n-1];
+
+    if(history[n - 1] == NULL) {
+
+        return NULL;
+
+    }
+
+    char * temp = malloc(sizeof(char) * strlen(history[n - 1]));
+    strcpy(temp, history[n - 1]);
+    return temp;
 }
 
 void displayHistory() {
+    for(int i = 0; i < HISTORY_SIZE; i++) {
+        if(history[i]) {
+            printf("[History] %d: %s", i + 1, history[i]);
+        }
+    }
+}
+
+void saveHistory() {
+
+    char * filename = ".hist_list";
+    FILE * file = fopen(filename, "w");
+
+    int index = 0;
 
     for(int i = 0; i < HISTORY_SIZE; i++) {
 
-        if(history[i] != NULL) {
+        if(history[index]) {
 
-            printf("%d: %s\n", i + 1, history[i]);
+            fprintf(file, "%d %s", index, history[index]);
 
         }
 
+        index++;
+
     }
 
-}
-
-void saveHistory(){
-    char * filename = ".hist_list";
-    FILE* file;
-    file = fopen(filename, "w+");
-    int counter = 0;
-    while (counter < HISTORY_SIZE && history[counter] != NULL) {
-        fprintf(file,"%d %s\n", counter, history[counter]);
-        counter++;
-    }
     fclose(file);
+
 }
 
+void loadHistory() {
 
+    FILE * file = fopen(".hist_list", "r");
+    char * buffer;
 
-void loadHistory(){
-    char * filename = ".hist_list";
-    int MAX_CHARS = 512;
-    char buffer[MAX_CHARS];
+    if(!file) {
 
-    FILE* file;
-    file = fopen(filename, "r");
-    int i = 0;
-    while(fgets(buffer, MAX_CHARS, file) != NULL) {
-        char * command;
-        command = strchr(buffer, ' ') + 1;
-        if (command == NULL)
-            continue;
+        fopen(".hist_list", "w");
+        return;
+
+    }
+
+    while(fgets(buffer, 255, file)) {
+
+        char * command = strchr(buffer, ' ') + 1;
 
         addCommand(command);
-        i++;
-        if (i > HISTORY_SIZE-1)
-            break;
-    }
-    fclose(file);
-}
 
+    }
+
+    fclose(file);
+
+}

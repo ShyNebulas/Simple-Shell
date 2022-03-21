@@ -58,6 +58,7 @@ int tokenize(char * buffer) {
 
     tokens[counter] = NULL;
 
+
     return counter;
 
 }
@@ -70,6 +71,8 @@ int tokenize(char * buffer) {
 
 bool checkTokensForCommands() {
 
+
+
     // If empty string exists
     if(tokens[0] == NULL) {
 
@@ -81,6 +84,53 @@ bool checkTokensForCommands() {
 
         return true;
 
+    }
+
+
+
+    else if(strcmp(tokens[0], "history") == 0) {
+
+        displayHistory();
+        return false;
+
+    }
+
+    else if (strcmp(tokens[0], "alias")==0) {
+        if (tokens[1] == NULL) {
+            printAliases();
+            return false;
+        } else if (tokens[2] == NULL) {
+            perror("[Error] Please give the command for the alias, alias takes two parameters <name> <command>");
+            return false;
+        } else {
+            int counter = 2;
+            char *comm = malloc(sizeof(char) * 500);
+            comm[0] = '\0';
+
+            while (tokens[counter] != NULL) {
+                strcat(comm, tokens[counter]);
+                strcat(comm, " ");
+                counter++;
+            }
+            createAlias(tokens[1], comm);
+            free(comm);
+        }
+        return false;
+    }
+
+    else if(strcmp(tokens[0],"unalias")==0) {
+        if (tokens[1] == NULL) {
+            perror("[Error] unalias requires the name of the alias you want to delete");
+            return false;
+        }
+        else if (tokens[2] != NULL) {
+            perror("[Error] unalias only takes one parameter, <name> of alias to delete");
+            return false;
+        }
+        else {
+            unAlias(tokens[1]);
+            return false;
+        }
     }
 
     else if(strcmp(tokens[0], "getpath")== 0) {
@@ -105,29 +155,32 @@ bool checkTokensForCommands() {
 
     else if(strcmp(tokens[0], "setpath")== 0) {
 
-        if(tokens[1] == NULL) {
+        if (tokens[1] == NULL) {
 
             perror("[Error] No parameters provided");
 
             return false;
 
         }
+        else if (tokens[2] == NULL) {
 
-        int err = setPath(tokens[1]);
+            int err = setPath(tokens[1]);
 
-        if(err < 0){
+            if (err < 0) {
 
-            perror("[Error] Could not execute command");
-            return false;
+                perror("[Error] Could not execute command");
+                return false;
+
+            } else if (err == 0) {
+
+                return false;
+
+            }
 
         }
-
-        else if(err == 0) {
-
-            return false;
-
+        else {
+            perror("[Error] Setpath only takes 1 parameter, try again with a single path and no spaces.");
         }
-
     }
 
     else if(strcmp(tokens[0], "cd") == 0) {
@@ -152,6 +205,14 @@ bool checkTokensForCommands() {
 
     else if (strcspn(tokens[0],"!") == 0){
 
+        if(strlen(tokens[0]) == 1) {
+
+            printf("Requires a number\n");
+
+            return false;
+
+        }
+
         char subString[sizeOfCharArray(tokens[0])];
 
         memset(subString, '\0', sizeof(subString));
@@ -167,12 +228,11 @@ bool checkTokensForCommands() {
 
         int historyNum;
 
-        sscanf(subString + 1,"%d",&historyNum);
-
+        sscanf(subString + 1,"%d\n",&historyNum);
 
         char *toExecuteAgain;
 
-        if (subString[0] == '!' && subString[1] == '!') {
+        if(subString[0] == '!' && subString[1] == '!') {
 
             toExecuteAgain = getMostRecentCommand();
 
@@ -183,21 +243,20 @@ bool checkTokensForCommands() {
 
             else {
                 tokenize(toExecuteAgain);
-                checkTokensForCommands();
-                return false;
+                return checkTokensForCommands();
             }
         }
 
         else if (historyNum >=1 && historyNum <=20 ) {
             toExecuteAgain = getCommandByIndex(historyNum);
+
             if (toExecuteAgain == NULL) {
                 perror("This number has no command in history\n");
                 return false;
             }
             else {
                 tokenize(toExecuteAgain);
-                checkTokensForCommands();
-                return false;
+                return checkTokensForCommands();
             }
         }
         else {
@@ -217,17 +276,31 @@ bool checkTokensForCommands() {
 
 }
 
-int checkForHistoryInvocation() {
-    if(tokens[0] == NULL) {
 
-        return false;
-
-    }
-    else if (tokens[0][0] == '!') {
+int checkForHistoryInvocation(char *buffer) {
+    if (buffer[0] == '!') {
         return 1;
-
     }
     else {
         return 0;
+    }
+}
+
+int checkAndReplaceAliases() {
+    if(checkHowManyAliases()!=0) {
+        int i=0;
+        while (tokens[i] != NULL) {
+            char *temp = getAliasCommand(tokens[i]);
+            printf("%s", temp);
+            if (temp != NULL) {
+                tokens[i] = temp;
+                printf("%s",tokens[i]);
+            }
+            i++;
+        }
+        return 0;
+    }
+    else {
+        return -1;
     }
 }
