@@ -69,11 +69,13 @@ bool checkTokensForCommands() {
     if (tokens[0] == NULL) {
         return false;
 
-    } else if (strcmp(tokens[0], "exit") == 0) {
+    }
+    else if (strcmp(tokens[0], "exit") == 0) {
 
         return true;
 
-    } else if (strcmp(tokens[0], "history") == 0) {
+    }
+    else if (strcmp(tokens[0], "history") == 0) {
 
         displayHistory();
         return false;
@@ -191,7 +193,7 @@ bool checkTokensForCommands() {
 
         if(strlen(tokens[0]) == 1) {
 
-            printf("Requires a number\n");
+            perror("Requires a number\n");
 
             return false;
 
@@ -214,25 +216,28 @@ bool checkTokensForCommands() {
 
         sscanf(subString + 1,"%d\n",&historyNum);
 
+        if(getMostRecentCommand() == NULL) {
+            perror("No commands have been stored in History yet.\n");
+            return false;
+        }
+
         char *toExecuteAgain;
 
         if(subString[0] == '!' && subString[1] == '!') {
 
-            toExecuteAgain = getMostRecentCommand();
+            toExecuteAgain = malloc(sizeof(char) * strlen(getMostRecentCommand()));
 
-            if(toExecuteAgain == NULL) {
-                perror("No commands have been stored in History yet.\n");
-                return false;
-            }
+            strcpy(toExecuteAgain, getMostRecentCommand());
+            tokenize(toExecuteAgain);
+            return checkTokensForCommands();
 
-            else {
-                tokenize(toExecuteAgain);
-                return checkTokensForCommands();
-            }
         }
 
         else if (historyNum >=1 && historyNum <=20 ) {
-            toExecuteAgain = getCommandByIndex(historyNum);
+
+            toExecuteAgain = malloc(sizeof(char) * strlen(getCommandByIndex(historyNum)));
+
+            strcpy(toExecuteAgain, getCommandByIndex(historyNum));
 
             if (toExecuteAgain == NULL) {
                 perror("This number has no command in history\n");
@@ -256,14 +261,13 @@ bool checkTokensForCommands() {
     return false;
 }
 
-
 int checkForHistoryInvocation(char* buffer) {
     char *temp = malloc (512);
     strcpy(temp,buffer);
     char delimiter[] = "  \t \n ; & > < \r |";
     char *toCheck = strtok(temp, delimiter);
 
-    if(strcmp(toCheck, "history")==0 || toCheck[0] == '!' ) {
+    if(toCheck == NULL || strcmp(toCheck, "history")==0 || toCheck[0] == '!' ) {
         return 0;
     }
     else {
@@ -319,3 +323,4 @@ int checkIfUserIsSettingAlias() {
         return 0;
     }
 }
+
