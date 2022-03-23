@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../dep/headers/functionDefinitions.h"
+
 #define HISTORY_SIZE 20
 char *history[HISTORY_SIZE];
 int lastIndex = 0;
@@ -54,6 +55,9 @@ char *getCommandByIndex (int n) {
 }
 
 void displayHistory() {
+    if(lastIndex == 0) {
+        perror("History has no commands yet, execute some commands first.");
+    }
     for(int i = 0; i < HISTORY_SIZE; i++) {
         if(history[i]) {
             printf("[History] %d: %s", i + 1, history[i]);
@@ -84,26 +88,23 @@ void saveHistory() {
 
 }
 
-void loadHistory() {
+
+int loadHistory() {
 
     FILE * file = fopen(".hist_list", "r");
-    char * buffer;
+    char * buffer = malloc(512);
 
     if(!file) {
-
         fopen(".hist_list", "w");
-        return;
-
+        return 0;
     }
 
-    while(fgets(buffer, 255, file)) {
-
-        char * command = strchr(buffer, ' ') + 1;
-
+    while(fgets(buffer, 512, file)!= NULL) {
+        char *command = strchr(buffer, ' ') + 1;
         addCommand(command);
-
     }
-
     fclose(file);
-
+    free(buffer);
+    return 1;
 }
+

@@ -12,7 +12,9 @@ char* getPath();
 // userInput.c
 bool getUserInput(char * buffer, int size);
 int tokenize(char * buffer);
-int checkAndReplaceAliases();
+void checkAndReplaceAliases();
+int checkIfUserIsSettingAlias();
+int checkForHistoryInvocation(char *buffer);
 
 // --------------------------------------------------
 // execute.c
@@ -31,10 +33,8 @@ void addCommand(char *command);
 void displayHistory();
 char *getMostRecentCommand();
 char *getCommandByIndex (int n);
-int checkForHistoryInvocation(char *buffer);
-void loadHistory();
+int loadHistory();
 void saveHistory();
-
 
 //----------------------------------------------------
 typedef struct ALIAS {

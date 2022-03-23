@@ -12,12 +12,12 @@ int main() {
     bool quit = false;
     char buffer[BUFFER_SIZE];
     char *path = getPath();
-    changeDir(getenv("HOME"));
 
+    changeDir(getenv("HOME"));
     loadHistory();
+    loadAliases();
 
     do {
-
         printf("£ ");
 
         if(getUserInput(buffer, BUFFER_SIZE)) {
@@ -27,21 +27,23 @@ int main() {
             break;
 
         }
-
-        if (!(checkForHistoryInvocation(buffer)==1)) {
+        if((checkForHistoryInvocation(buffer)==1)) {
             addCommand(buffer);
         }
 
         tokenize(buffer);
-        checkAndReplaceAliases();
 
+        if(checkIfUserIsSettingAlias()==0){
+            checkAndReplaceAliases();
+        }
         quit = checkTokensForCommands();
 
     } while (!quit);
-    
-    setPath(path);
+
     changeDir(getenv("HOME"));
-    printf("%s\n", getPath());
+    setPath(path);
+    saveAliases();
     saveHistory();
+    printf("%s\n", getPath());
     return 0;
 }

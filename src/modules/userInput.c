@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include<ctype.h>
 
@@ -50,17 +49,12 @@ int tokenize(char * buffer) {
 
     // Stops when token is NULL
     while(tokens[counter]) {
-
         counter++;
         tokens[counter]= strtok(NULL, delimiter);
-
     }
 
     tokens[counter] = NULL;
-
-
     return counter;
-
 }
 
 // --------------------------------------------------
@@ -71,31 +65,21 @@ int tokenize(char * buffer) {
 
 bool checkTokensForCommands() {
 
-
-
     // If empty string exists
-    if(tokens[0] == NULL) {
-
+    if (tokens[0] == NULL) {
         return false;
 
-    }
-
-    else if(strcmp(tokens[0], "exit") == 0) {
+    } else if (strcmp(tokens[0], "exit") == 0) {
 
         return true;
 
-    }
-
-
-
-    else if(strcmp(tokens[0], "history") == 0) {
+    } else if (strcmp(tokens[0], "history") == 0) {
 
         displayHistory();
         return false;
 
     }
-
-    else if (strcmp(tokens[0], "alias")==0) {
+    else if (strcmp(tokens[0], "alias") == 0) {
         if (tokens[1] == NULL) {
             printAliases();
             return false;
@@ -106,7 +90,6 @@ bool checkTokensForCommands() {
             int counter = 2;
             char *comm = malloc(sizeof(char) * 500);
             comm[0] = '\0';
-
             while (tokens[counter] != NULL) {
                 strcat(comm, tokens[counter]);
                 strcat(comm, " ");
@@ -114,9 +97,9 @@ bool checkTokensForCommands() {
             }
             createAlias(tokens[1], comm);
             free(comm);
-        }
-        return false;
     }
+        return false;
+ }
 
     else if(strcmp(tokens[0],"unalias")==0) {
         if (tokens[1] == NULL) {
@@ -146,11 +129,8 @@ bool checkTokensForCommands() {
 
             perror("[Error] Getpath does not take parameters");
             return false;
-
         }
-
         return false;
-
     }
 
     else if(strcmp(tokens[0], "setpath")== 0) {
@@ -191,6 +171,10 @@ bool checkTokensForCommands() {
 
             return false;
 
+        }
+        else if(tokens[2] != NULL) {
+            perror("The command <cd> takes only 1 parameter, the <path> you want to cd into separated by / ");
+            return false;
         }
 
         else {
@@ -267,41 +251,71 @@ bool checkTokensForCommands() {
     }
 
     else {
-
         execute(TOKENS_ROWS, tokens);
-
     }
-
     return false;
-
 }
 
 
-int checkForHistoryInvocation(char *buffer) {
-    if (buffer[0] == '!') {
+int checkForHistoryInvocation(char* buffer) {
+    char *temp = malloc (512);
+    strcpy(temp,buffer);
+    char delimiter[] = "  \t \n ; & > < \r |";
+    char *toCheck = strtok(temp, delimiter);
+
+    if(strcmp(toCheck, "history")==0 || toCheck[0] == '!' ) {
+        return 0;
+    }
+    else {
+        return 1;
+    }
+}
+
+ void checkAndReplaceAliases() {
+    int counter=0;  // this counter is for the while loop that goes through the current tokens array one by one to check for aliases
+    int currentNewIndex=0; // this is the next free position in the new tokens array
+    char *newTokens[100];  // new tokens array after replacing aliases
+    while (tokens[counter] != NULL) {
+        char *checkForCommand = getAliasCommand(tokens[counter]);  //gets command by name
+        char *command = malloc(sizeof (char) * 100);
+        char *tokenizedCommand[20];
+        if (checkForCommand != NULL) {
+            strcpy(command,checkForCommand);
+            tokenizedCommand[0] = strtok(command," ");
+            // we tokenise the stored command because it is a string
+            int i = 0;
+            while(tokenizedCommand[i]) {
+                i++;
+                tokenizedCommand[i] = strtok(NULL, " ");
+            }
+            int j=0;  // go through the tokenised command and add them back to the new tokens array in place of the alias
+            while(tokenizedCommand[j]!= NULL) {
+                newTokens[currentNewIndex] = tokenizedCommand[j];
+                j++;
+                currentNewIndex++;
+            }
+        }
+        else {  // if the word is not an alias we just add it to the new tokens array and update the index.
+            newTokens[currentNewIndex] = tokens[counter];
+            currentNewIndex++;
+        }
+        newTokens[currentNewIndex] = NULL;
+        counter ++;
+    }
+    // now we just replace the tokens array with the new tokens array post alias replacement.
+    int index = 0;
+     while (newTokens[index] != NULL) {
+         tokens[index] = newTokens[index];
+         index++;
+     }
+     tokens[index] = NULL;
+}
+
+int checkIfUserIsSettingAlias() {
+    if (tokens[0] == NULL || strcmp(tokens[0], "alias") == 0 || strcmp(tokens[0], "unalias") == 0) {
         return 1;
     }
     else {
         return 0;
-    }
-}
-
-int checkAndReplaceAliases() {
-    if(checkHowManyAliases()!=0) {
-        int i=0;
-        while (tokens[i] != NULL) {
-            char *temp = malloc(500);
-            temp = getAliasCommand(tokens[i]);
-            //printf("%s", temp);
-            if (temp != NULL) {
-                tokens[i] = temp;
-                //printf("%s",tokens[i]);
-            }
-            i++;
-        }
-        return 0;
-    }
-    else {
-        return -1;
     }
 }

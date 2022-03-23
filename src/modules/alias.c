@@ -41,11 +41,14 @@ int checkHowManyAliases() {
     return counter;
 }
 
-int checkIfAliasExists(char *name) {   //this function returns the index of the alias if it exists, or -1 if it does not
-    for (int i=0; i<ALIAS_LIMIT;i++) {
-        if (AliasArray[i].name!= NULL) {
-            if(strcmp(AliasArray[i].name,name)==0) {
-                return i;
+int checkIfAliasExists(char *name) {
+    //this function returns the index of the alias if it exists, or -1 if it does not
+    if(checkHowManyAliases()!=0) {
+        for (int i = 0; i < ALIAS_LIMIT; i++) {
+            if (AliasArray[i].name != NULL) {
+                if (strcmp(AliasArray[i].name, name) == 0) {
+                    return i;
+                }
             }
         }
     }
@@ -127,24 +130,21 @@ int saveAliases() {
     FILE *file = fopen(filename, "w");
     if (file == NULL) {
         fprintf(stderr, "\nError opening aliases file\n");
-        return -1;
+        return 0;
     }
     else {
-
         for (int i =0; i<ALIAS_LIMIT; i++) {
             if (AliasArray[i].name != NULL) {
-                fprintf(file, "%s %s\n", AliasArray[i].name,AliasArray[i].command);
-
+               fprintf(file, "%s %s\n", AliasArray[i].name,AliasArray[i].command);
             }
         }
         fclose(file);
-        return 0;
+        return 1;
     }
 }
 
 
 int loadAliases() {
-
     FILE *file = fopen(".aliases", "r");
     char *buffer = malloc(255);
     if (!file) {
@@ -152,10 +152,20 @@ int loadAliases() {
         return 0;
     }
     while (fgets(buffer, 255, file) != NULL) {
-        char *name = strtok(buffer, " ");
-        char *command = strtok(NULL, " ");
-        createAlias(name, command);
+        char delimiter[] = "  \t \n ; & > < \r |";
+        char *command = malloc(sizeof(char)*100);
+        command[0] = '\0';
+        char *name = strtok(buffer, delimiter);
+        char *comm = strtok(NULL, delimiter);
+
+        while(comm!=NULL) {
+            strcat(command, comm);
+            strcat(command, " ");
+            comm = strtok(NULL,delimiter);
+        }
+            createAlias(name, command);
     }
     fclose(file);
     return 1;
 }
+
