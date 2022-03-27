@@ -97,8 +97,9 @@ bool checkTokensForCommands() {
                 strcat(comm, " ");
                 counter++;
             }
-            createAlias(tokens[1], comm);
-            printf("went to create");
+            char *name = malloc(512);
+            strcpy(name,tokens[1]);
+            createAlias(name, comm);
     }
         return false;
  }
