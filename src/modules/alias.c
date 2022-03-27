@@ -166,6 +166,7 @@ int loadAliases() {
             createAlias(name, command);
     }
     fclose(file);
+    free(buffer);
     return 1;
 }
 

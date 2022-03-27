@@ -90,7 +90,7 @@ bool checkTokensForCommands() {
             return false;
         } else {
             int counter = 2;
-            char *comm = malloc(sizeof(char) * 500);
+            char *comm = malloc(sizeof(char) * 512);
             comm[0] = '\0';
             while (tokens[counter] != NULL) {
                 strcat(comm, tokens[counter]);
@@ -191,9 +191,13 @@ bool checkTokensForCommands() {
 
     else if (strcspn(tokens[0],"!") == 0){
 
+        if(tokens[1] != NULL) {
+            perror("[Error] History invocations don't take parameters, try again with !<number>");
+        }
+
         if(strlen(tokens[0]) == 1) {
 
-            perror("Requires a number\n");
+            perror("History invocation requires a number\n");
 
             return false;
 
@@ -226,9 +230,9 @@ bool checkTokensForCommands() {
         if(subString[0] == '!' && subString[1] == '!') {
 
             toExecuteAgain = malloc(sizeof(char) * strlen(getMostRecentCommand()));
-
             strcpy(toExecuteAgain, getMostRecentCommand());
             tokenize(toExecuteAgain);
+            checkAndReplaceAliases();
             return checkTokensForCommands();
 
         }
@@ -245,6 +249,7 @@ bool checkTokensForCommands() {
             }
             else {
                 tokenize(toExecuteAgain);
+                checkAndReplaceAliases();
                 return checkTokensForCommands();
             }
         }
@@ -315,8 +320,8 @@ int checkForHistoryInvocation(char* buffer) {
      tokens[index] = NULL;
 }
 
-int checkIfUserIsSettingAlias() {
-    if (tokens[0] == NULL || strcmp(tokens[0], "alias") == 0 || strcmp(tokens[0], "unalias") == 0) {
+int checkIfUserIsAliasing() {
+    if (tokens[0] == NULL || tokens[0] == "alias" ||  strcmp(tokens[0], "unalias") == 0) {
         return 1;
     }
     else {

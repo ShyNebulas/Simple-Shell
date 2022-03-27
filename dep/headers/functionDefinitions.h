@@ -13,7 +13,7 @@ char* getPath();
 bool getUserInput(char * buffer, int size);
 int tokenize(char * buffer);
 void checkAndReplaceAliases();
-int checkIfUserIsSettingAlias();
+int checkIfUserIsAliasing();
 int checkForHistoryInvocation(char *buffer);
 
 // --------------------------------------------------

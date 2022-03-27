@@ -14,8 +14,8 @@ int main() {
     char *path = getPath();
 
     changeDir(getenv("HOME"));
-    loadHistory();
     loadAliases();
+    loadHistory();
 
     do {
         printf("£ ");
@@ -33,9 +33,10 @@ int main() {
 
         tokenize(buffer);
 
-        if(checkIfUserIsSettingAlias()==0){
+        if(checkIfUserIsAliasing()==0){
             checkAndReplaceAliases();
         }
+
         quit = checkTokensForCommands();
 
     } while (!quit);
@@ -47,3 +48,4 @@ int main() {
     printf("%s\n", getPath());
     return 0;
 }
+
