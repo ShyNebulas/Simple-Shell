@@ -98,7 +98,6 @@ bool checkTokensForCommands() {
                 counter++;
             }
             createAlias(tokens[1], comm);
-            free(comm);
     }
         return false;
  }
