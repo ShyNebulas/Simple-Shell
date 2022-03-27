@@ -320,7 +320,7 @@ int checkForHistoryInvocation(char* buffer) {
 }
 
 int checkIfUserIsAliasing() {
-    if (tokens[0] == NULL || tokens[0] == "alias" ||  strcmp(tokens[0], "unalias") == 0) {
+    if (tokens[0] == NULL || strcmp(tokens[0],"alias")==0 ||  strcmp(tokens[0], "unalias") == 0) {
         return 1;
     }
     else {
