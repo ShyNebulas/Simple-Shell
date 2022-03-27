@@ -90,7 +90,7 @@ bool checkTokensForCommands() {
             return false;
         } else {
             int counter = 2;
-            char *comm = malloc(sizeof(char) * 512);
+            char *comm = malloc(512);
             comm[0] = '\0';
             while (tokens[counter] != NULL) {
                 strcat(comm, tokens[counter]);
@@ -98,7 +98,9 @@ bool checkTokensForCommands() {
                 counter++;
             }
             createAlias(tokens[1], comm);
+            printf("went to create");
     }
+        printf("did not go to create");
         return false;
  }
 
