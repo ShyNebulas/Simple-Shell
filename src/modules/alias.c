@@ -61,7 +61,7 @@ int createAlias(char *name, char *command) {
 
     if(dupeAliasIndex!=-1) {
         if (strcmp(AliasArray[dupeAliasIndex].name,name)==0) {
-            char *comm = malloc(sizeof(char) * (strlen(command)));
+            char *comm = malloc(512);
             strcpy(comm,command);
             AliasArray[dupeAliasIndex].command = comm;
             printf("%s %s\n","This alias name already exists, the command has been overwritten to -> ",AliasArray[dupeAliasIndex].command);
@@ -74,9 +74,9 @@ int createAlias(char *name, char *command) {
     }
     else {
         alias *newAlias = malloc(sizeof(alias));
-        char *comm = malloc(sizeof(char) * (strlen(command)));
+        char *comm = malloc(512);
         strcpy(comm,command);
-        char *tempName = malloc(sizeof(char)* (strlen(name)));
+        char *tempName = malloc(512);
         strcpy(tempName,name);
         newAlias->command = comm;
         newAlias->name= tempName;
@@ -146,14 +146,14 @@ int saveAliases() {
 
 int loadAliases() {
     FILE *file = fopen(".aliases", "r");
-    char *buffer = malloc(255);
+    char *buffer = malloc(512);
     if (!file) {
         fopen(".aliases", "w");
         return 0;
     }
-    while (fgets(buffer, 255, file) != NULL) {
+    while (fgets(buffer, 512, file) != NULL) {
         char delimiter[] = "  \t \n ; & > < \r |";
-        char *command = malloc(sizeof(char)*100);
+        char *command = malloc(512);
         command[0] = '\0';
         char *name = strtok(buffer, delimiter);
         char *comm = strtok(NULL, delimiter);
