@@ -58,7 +58,6 @@ int checkIfAliasExists(char *name) {
 
 int createAlias(char *name, char *command) {
     int dupeAliasIndex = checkIfAliasExists(name);
-
     if(dupeAliasIndex!=-1) {
         if (strcmp(AliasArray[dupeAliasIndex].name,name)==0) {
             char *comm = malloc(512);
@@ -73,7 +72,7 @@ int createAlias(char *name, char *command) {
         return -1;
     }
     else {
-        alias *newAlias = malloc(sizeof(alias));
+        alias *newAlias = malloc(sizeof *newAlias);
         char *comm = malloc(512);
         strcpy(comm,command);
         char *tempName = malloc(512);

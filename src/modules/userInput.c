@@ -100,7 +100,6 @@ bool checkTokensForCommands() {
             createAlias(tokens[1], comm);
             printf("went to create");
     }
-        printf("did not go to create");
         return false;
  }
 
