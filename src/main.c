@@ -28,7 +28,10 @@ int main() {
 
         }
         if((checkForHistoryInvocation(buffer)==1)) {
-            addCommand(buffer);
+
+            char * temp = malloc(sizeof(char) * strlen(buffer));
+            strcpy(temp, buffer);
+            addCommand(temp);
         }
 
         tokenize(buffer);
