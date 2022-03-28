@@ -233,7 +233,9 @@ bool checkTokensForCommands() {
             toExecuteAgain = malloc(sizeof(char) * strlen(getMostRecentCommand())+1);
             strcpy(toExecuteAgain, getMostRecentCommand());
             tokenize(toExecuteAgain);
+            if(checkIfUserIsAliasing()==0){
             checkAndReplaceAliases();
+        }
             return checkTokensForCommands();
 
         }
@@ -250,7 +252,9 @@ bool checkTokensForCommands() {
             }
             else {
                 tokenize(toExecuteAgain);
-                checkAndReplaceAliases();
+                 if(checkIfUserIsAliasing()==0){
+            checkAndReplaceAliases();
+        }
                 return checkTokensForCommands();
             }
         }
