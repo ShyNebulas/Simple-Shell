@@ -62,6 +62,12 @@ int checkIfAliasExists(char *name) {
 
 
 int createAlias(char *name, char *command) {
+
+    if(strcmp(command, "!! ") == 0 || strcmp(command, "!!") == 0) {
+        printf("You cannot bind anything to '!!\n");
+        return -1;
+    }
+
     int dupeAliasIndex = checkIfAliasExists(name);
     if(dupeAliasIndex!=-1) {
         if (strcmp(AliasArray[dupeAliasIndex].name,name)==0) {

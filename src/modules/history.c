@@ -19,7 +19,7 @@ void deleteEarliestCommand() {
     for(int i = 1; i < lastIndex; i++) {
         history[i - 1] = history[i];
     }
-    history[lastIndex] = NULL;
+    history[lastIndex - 1] = NULL;
 }
 
 void addCommand(char *command) {
