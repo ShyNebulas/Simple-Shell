@@ -60,7 +60,7 @@ int createAlias(char *name, char *command) {
     int dupeAliasIndex = checkIfAliasExists(name);
     if(dupeAliasIndex!=-1) {
         if (strcmp(AliasArray[dupeAliasIndex].name,name)==0) {
-            char *comm = malloc(512);
+            char *comm = malloc(sizeof(char) * strlen(command));
             strcpy(comm,command);
             AliasArray[dupeAliasIndex].command = comm;
             printf("%s %s\n","This alias name already exists, the command has been overwritten to -> ",AliasArray[dupeAliasIndex].command);
@@ -73,9 +73,9 @@ int createAlias(char *name, char *command) {
     }
     else {
         alias *newAlias = malloc(sizeof *newAlias);
-        char *comm = malloc(512);
+        char *comm = malloc(sizeof(char) * strlen(command));
         strcpy(comm,command);
-        char *tempName = malloc(512);
+        char *tempName = malloc(sizeof(char) * strlen(name));
         strcpy(tempName,name);
         newAlias->command = comm;
         newAlias->name= tempName;
