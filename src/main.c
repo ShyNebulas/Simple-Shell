@@ -30,7 +30,7 @@ int main() {
         }
         if((checkForHistoryInvocation(buffer)==1)) {
 
-            char * temp = malloc(sizeof(char) * strlen(buffer));
+            char * temp = malloc(sizeof(char) * strlen(buffer) + 1);
             strcpy(temp, buffer);
             addCommand(temp);
         }

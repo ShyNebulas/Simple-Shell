@@ -230,7 +230,7 @@ bool checkTokensForCommands() {
 
         if(subString[0] == '!' && subString[1] == '!') {
 
-            toExecuteAgain = malloc(sizeof(char) * strlen(getMostRecentCommand()));
+            toExecuteAgain = malloc(sizeof(char) * strlen(getMostRecentCommand()) + 1);
             strcpy(toExecuteAgain, getMostRecentCommand());
             tokenize(toExecuteAgain);
             checkAndReplaceAliases();
@@ -240,7 +240,7 @@ bool checkTokensForCommands() {
 
         else if (historyNum >=1 && historyNum <=20 ) {
 
-            toExecuteAgain = malloc(sizeof(char) * strlen(getCommandByIndex(historyNum)));
+            toExecuteAgain = malloc(sizeof(char) * strlen(getCommandByIndex(historyNum)) + 1);
 
             strcpy(toExecuteAgain, getCommandByIndex(historyNum));
 
