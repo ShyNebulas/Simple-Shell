@@ -16,7 +16,8 @@ int changeDir(char *newDirectory) {
 
     if (val < 0) {
 
-        perror("[Error] Couldn't change directory, does not exist\n");
+        perror("[Error] Couldn't change directory");
+        perror(newDirectory);
 
         return 1;
 
