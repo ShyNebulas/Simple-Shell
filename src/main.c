@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include "../dep/headers/functionDefinitions.h"
 
 #define BUFFER_SIZE 512
@@ -28,7 +29,10 @@ int main() {
 
         }
         if((checkForHistoryInvocation(buffer)==1)) {
-            addCommand(buffer);
+            char * temp = malloc(sizeof(char) * strlen(buffer) + 1);
+            strcpy(temp, buffer);
+            addCommand(temp);
+
         }
 
         tokenize(buffer);

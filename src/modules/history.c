@@ -16,7 +16,7 @@ int isFull() {
 
 void deleteEarliestCommand() {
     free(history[0]);
-    for(int i = 1; i < lastIndex + 1; i++) {
+    for(int i = 1; i < lastIndex; i++) {
         history[i - 1] = history[i];
     }
     history[lastIndex] = NULL;
@@ -25,12 +25,12 @@ void deleteEarliestCommand() {
 void addCommand(char *command) {
     if(isFull()) {
         deleteEarliestCommand();
-        char *comm = malloc(sizeof(char) * (strlen(command)));
+        char *comm = malloc(sizeof(char) * (strlen(command))+1);
         strcpy(comm,command);
         history[HISTORY_SIZE - 1] = comm;
     }
     else {
-        char *comm = malloc(sizeof(char) * (strlen(command)));
+        char *comm = malloc(sizeof(char) * (strlen(command))+1);
         strcpy(comm, command);
         history[lastIndex] = comm;
         lastIndex++;
@@ -49,7 +49,7 @@ char *getCommandByIndex (int n) {
 
     }
 
-    char * temp = malloc(sizeof(char) * strlen(history[n - 1]));
+    char * temp = malloc(sizeof(char) * strlen(history[n - 1])+1);
     strcpy(temp, history[n - 1]);
     return temp;
 }
@@ -107,4 +107,5 @@ int loadHistory() {
     free(buffer);
     return 1;
 }
+
 

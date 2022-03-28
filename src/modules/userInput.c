@@ -97,7 +97,7 @@ bool checkTokensForCommands() {
                 strcat(comm, " ");
                 counter++;
             }
-            char *name = malloc(512);
+            char *name = malloc(sizeof (char )* strlen(tokens[1])+1);
             strcpy(name,tokens[1]);
             createAlias(name, comm);
     }
@@ -230,7 +230,7 @@ bool checkTokensForCommands() {
 
         if(subString[0] == '!' && subString[1] == '!') {
 
-            toExecuteAgain = malloc(sizeof(char) * strlen(getMostRecentCommand()));
+            toExecuteAgain = malloc(sizeof(char) * strlen(getMostRecentCommand())+1);
             strcpy(toExecuteAgain, getMostRecentCommand());
             tokenize(toExecuteAgain);
             checkAndReplaceAliases();
@@ -240,7 +240,7 @@ bool checkTokensForCommands() {
 
         else if (historyNum >=1 && historyNum <=20 ) {
 
-            toExecuteAgain = malloc(sizeof(char) * strlen(getCommandByIndex(historyNum)));
+            toExecuteAgain = malloc(sizeof(char) * strlen(getCommandByIndex(historyNum))+1);
 
             strcpy(toExecuteAgain, getCommandByIndex(historyNum));
 
@@ -270,7 +270,7 @@ bool checkTokensForCommands() {
 int checkForHistoryInvocation(char* buffer) {
     char *temp = malloc (512);
     strcpy(temp,buffer);
-    char delimiter[] = "  \t \n ; & > < \r |";
+    char delimiter[] = "  \t \n ; & > < \r  |";
     char *toCheck = strtok(temp, delimiter);
 
     if(toCheck == NULL || strcmp(toCheck, "history")==0 || toCheck[0] == '!' ) {
@@ -287,7 +287,7 @@ int checkForHistoryInvocation(char* buffer) {
     char *newTokens[100];  // new tokens array after replacing aliases
     while (tokens[counter] != NULL) {
         char *checkForCommand = getAliasCommand(tokens[counter]);  //gets command by name
-        char *command = malloc(sizeof (char) * 100);
+        char *command = malloc(sizeof (char) * 512);
         char *tokenizedCommand[20];
         if (checkForCommand != NULL) {
             strcpy(command,checkForCommand);

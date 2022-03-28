@@ -1,4 +1,3 @@
-
 //
 // Created by Ayushi Badiyani on 3/14/22.
 //
@@ -12,16 +11,21 @@ alias AliasArray[ALIAS_LIMIT];
 
 int getNextIndex() {
     int count=0;
-    while(AliasArray[count].name !=NULL){
-        count++;
+    for (int i =0; i<10;i++) {
+        if(AliasArray[count].name != NULL)
+        {
+            count++;
+        }
     }
     return count;
 }
 
 int checkIfAliasesFull() {
     int counter = 0;
-    while(AliasArray[counter].name != NULL)    {
+    for (int i =0; i<10 ; i++) {
+    if(AliasArray[counter].name != NULL)    {
         counter++;
+    }
     }
     if(counter==ALIAS_LIMIT) {
         return 0;
@@ -30,6 +34,7 @@ int checkIfAliasesFull() {
         return -1;
     }
 }
+
 
 int checkHowManyAliases() {
     int counter = 0;
@@ -60,7 +65,7 @@ int createAlias(char *name, char *command) {
     int dupeAliasIndex = checkIfAliasExists(name);
     if(dupeAliasIndex!=-1) {
         if (strcmp(AliasArray[dupeAliasIndex].name,name)==0) {
-            char *comm = malloc(512);
+            char *comm = malloc(sizeof(char) * strlen(command) +1);
             strcpy(comm,command);
             AliasArray[dupeAliasIndex].command = comm;
             printf("%s %s\n","This alias name already exists, the command has been overwritten to -> ",AliasArray[dupeAliasIndex].command);
@@ -73,9 +78,9 @@ int createAlias(char *name, char *command) {
     }
     else {
         alias *newAlias = malloc(sizeof *newAlias);
-        char *comm = malloc(512);
+        char *comm = malloc(sizeof(char)* strlen(command)+1);
         strcpy(comm,command);
-        char *tempName = malloc(512);
+        char *tempName = malloc(sizeof(char)* strlen(name)+1);
         strcpy(tempName,name);
         newAlias->command = comm;
         newAlias->name= tempName;
@@ -165,7 +170,7 @@ int loadAliases() {
             createAlias(name, command);
     }
     fclose(file);
-    free(buffer);
     return 1;
 }
+
 
