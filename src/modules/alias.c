@@ -106,7 +106,9 @@ char *getAliasCommand(char *name) {
         return NULL;
     }
     else {
-        return AliasArray[ind].command;
+        char * temp = malloc(sizeof(char) * strlen(AliasArray[ind].command));
+        strcpy(temp, AliasArray[ind].command);
+        return temp;
     }
 }
 
