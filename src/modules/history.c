@@ -16,7 +16,7 @@ int isFull() {
 
 void deleteEarliestCommand() {
     history[0] = NULL;
-    //free(history[0]);
+    free(history[0]);
     for(int i = 1; i < lastIndex + 1; i++) {
         history[i - 1] = history[i];
     }

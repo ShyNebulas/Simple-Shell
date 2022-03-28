@@ -12,23 +12,28 @@ alias AliasArray[ALIAS_LIMIT];
 
 int getNextIndex() {
     int count=0;
-    while(AliasArray[count].name !=NULL){
-        count++;
+    for (int i =0; i<10;i++) {
+        if(AliasArray[count].name != NULL)
+        {
+            count++;
+        }
     }
     return count;
 }
 
 int checkIfAliasesFull() {
     int counter = 0;
-    while(AliasArray[counter].name != NULL)    {
-        counter++;
-    }
-    if(counter==ALIAS_LIMIT) {
-        return 0;
-    }
-    else {
-        return -1;
-    }
+    for (int i =0; i<10 ; i++) {
+        if(AliasArray[counter].name != NULL)    {
+            counter++;
+        }
+        }
+        if(counter==ALIAS_LIMIT) {
+            return 0;
+        }
+        else {
+            return -1;
+        }
 }
 
 int checkHowManyAliases() {
